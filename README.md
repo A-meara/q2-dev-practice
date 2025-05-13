@@ -2,6 +2,8 @@
 
 A [QIIME 2](https://qiime2.org) plugin [developed](https://develop.qiime2.org) by AMeara (ameara@student.ethz.ch). 🔌
 
+-> first toy plugin using the cookiecutter template from "pipx run cookiecutter gh:caporaso-lab/cookiecutter-qiime2-plugin"
+
 ## Installation instructions
 
 **The following instructions are intended to be a starting point** and should be replaced when `q2toy_1_cc` is ready to share with others.
