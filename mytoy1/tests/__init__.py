@@ -1,6 +1,6 @@
 # flake8: noqa
 # ----------------------------------------------------------------------------
-# Copyright (c) 2024, AMeara.
+# Copyright (c) 2025, AMeara.
 #
 # Distributed under the terms of the Modified BSD License.
 #

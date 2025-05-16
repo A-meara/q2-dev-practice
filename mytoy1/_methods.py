@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# Copyright (c) 2024, AMeara.
+# Copyright (c) 2025, AMeara.
 #
 # Distributed under the terms of the Modified BSD License.
 #
@@ -10,7 +10,14 @@ import pandas as pd
 
 from skbio.alignment import global_pairwise_align_nucleotide, TabularMSA
 
-from q2_types.feature_data import DNAIterator
+from q2_types.feature_data import DNAIterator, DNAFASTAFormat
+
+import os
+import click
+import q2cli.util
+
+
+
 
 def duplicate_table(table: pd.DataFrame) -> pd.DataFrame:
     return table
@@ -33,3 +40,16 @@ def nw_align(seq1: DNAIterator,
     )
 
     return msa
+
+# want sequence file as input ->
+# def seqcount(sequences: DNAFASTAFormat ) -> int:
+#
+#     count = 0
+#     with open('sequences') as my_fasta:
+#         for line in my_fasta:
+#             if line.startswith('>'):
+#                 count += 1
+#     outputstr = "number of sequences: %d" % count
+#     click.secho(outputstr,fg='green', bg='black')
+#
+#     return count

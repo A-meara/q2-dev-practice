@@ -1,15 +1,21 @@
 # ----------------------------------------------------------------------------
-# Copyright (c) 2024, AMeara.
+# Copyright (c) 2025, AMeara.
 #
 # Distributed under the terms of the Modified BSD License.
 #
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
+import importlib
 from qiime2.plugin import Citations, Plugin, Float, Range
 from q2_types.feature_table import FeatureTable, Frequency
 from mytoy1 import __version__
-from mytoy1._methods import nw_align, duplicate_table
+from mytoy1._methods import nw_align, duplicate_table #, seqcount
 from q2_types.feature_data import FeatureData, Sequence, AlignedSequence
+
+from mytoy1 import (
+    SingleDNASequence, SingleRecordDNAFASTAFormat,
+    SingleRecordDNAFASTADirectoryFormat)
+
 
 
 citations = Citations.load("citations.bib", package="mytoy1")
@@ -72,3 +78,33 @@ plugin.methods.register_function(
                  "This action is for demonstration purposes only. 🐌"),
     citations=[citations['Needleman1970']]
 )
+
+# Register semantic types
+plugin.register_semantic_types(SingleDNASequence)
+
+# Register formats
+plugin.register_formats(SingleRecordDNAFASTAFormat,
+                        SingleRecordDNAFASTADirectoryFormat)
+
+# Define and register new ArtifactClass
+plugin.register_artifact_class(SingleDNASequence,
+                               SingleRecordDNAFASTADirectoryFormat,
+                               description="A single DNA sequence.")
+
+# plugin.methods.register_function(
+#     function=seqcount,
+#     inputs={'sequences': FeatureData[Sequence]},
+#     parameters={},
+#     outputs={'seq_count': FeatureData[Sequence]},
+#     input_descriptions={'sequences': 'File containing the sequences to be counted'},
+#     parameter_descriptions={},
+#     #output_descriptions={
+#     #    'aligned_sequences': 'The pairwise aligned sequences.'
+#     #},
+#     name='Sequence Counter',
+#     description="Count my sequences!!"
+#     #citations=[citations['Needleman1970']]
+# )
+
+importlib.import_module('mytoy1._transformers')
+
