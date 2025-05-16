@@ -10,7 +10,7 @@ from qiime2.plugin import Citations, Plugin, Float, Range
 from q2_types.feature_table import FeatureTable, Frequency
 from mytoy1 import __version__
 from mytoy1._methods import nw_align, duplicate_table #, seqcount
-from q2_types.feature_data import FeatureData, Sequence, AlignedSequence
+from q2_types.feature_data import FeatureData, AlignedSequence
 
 from mytoy1 import (
     SingleDNASequence, SingleRecordDNAFASTAFormat,
@@ -49,8 +49,8 @@ plugin.methods.register_function(
 
 plugin.methods.register_function(
     function=nw_align,
-    inputs={'seq1': FeatureData[Sequence],
-            'seq2': FeatureData[Sequence]},
+    inputs={'seq1': SingleDNASequence,
+            'seq2': SingleDNASequence},
     parameters={
         'gap_open_penalty': Float % Range(0, None, inclusive_start=False),
         'gap_extend_penalty': Float % Range(0, None, inclusive_start=False),
