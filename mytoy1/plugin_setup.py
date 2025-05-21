@@ -9,14 +9,15 @@ import importlib
 from qiime2.plugin import Citations, Plugin, Float, Range
 from q2_types.feature_table import FeatureTable, Frequency
 from mytoy1 import __version__
-from mytoy1._methods import nw_align, duplicate_table #, seqcount
-from q2_types.feature_data import FeatureData, AlignedSequence
+from mytoy1._methods import nw_align, duplicate_table, seqcount
+from q2_types.feature_data import FeatureData, AlignedSequence, Sequence
 
 from mytoy1 import (
     SingleDNASequence, SingleRecordDNAFASTAFormat,
-    SingleRecordDNAFASTADirectoryFormat)
-
-
+    SingleRecordDNAFASTADirectoryFormat,
+    TotalSeqCount, MySequenceCountFormat,
+    SingleRecordSeqCountDirectoryFormat
+)
 
 citations = Citations.load("citations.bib", package="mytoy1")
 
@@ -80,31 +81,38 @@ plugin.methods.register_function(
 )
 
 # Register semantic types
-plugin.register_semantic_types(SingleDNASequence)
+plugin.register_semantic_types(SingleDNASequence,TotalSeqCount)
 
 # Register formats
 plugin.register_formats(SingleRecordDNAFASTAFormat,
-                        SingleRecordDNAFASTADirectoryFormat)
+                        SingleRecordDNAFASTADirectoryFormat,
+                        MySequenceCountFormat,
+                        SingleRecordSeqCountDirectoryFormat
+                        )
 
 # Define and register new ArtifactClass
 plugin.register_artifact_class(SingleDNASequence,
                                SingleRecordDNAFASTADirectoryFormat,
                                description="A single DNA sequence.")
 
-# plugin.methods.register_function(
-#     function=seqcount,
-#     inputs={'sequences': FeatureData[Sequence]},
-#     parameters={},
-#     outputs={'seq_count': FeatureData[Sequence]},
-#     input_descriptions={'sequences': 'File containing the sequences to be counted'},
-#     parameter_descriptions={},
-#     #output_descriptions={
-#     #    'aligned_sequences': 'The pairwise aligned sequences.'
-#     #},
-#     name='Sequence Counter',
-#     description="Count my sequences!!"
-#     #citations=[citations['Needleman1970']]
-# )
+plugin.register_artifact_class(TotalSeqCount,
+                               SingleRecordSeqCountDirectoryFormat,
+                               description="Total DNA sequence count.")
+
+plugin.methods.register_function(
+    function=seqcount,
+    inputs={'sequences': FeatureData[Sequence]},
+    parameters={},
+    outputs={'seq_count': TotalSeqCount},
+    input_descriptions={'sequences': 'File containing the sequences to be counted'},
+    parameter_descriptions={},
+    #output_descriptions={
+    #    'aligned_sequences': 'The pairwise aligned sequences.'
+    #},
+    name='Sequence Counter',
+    description="Count my sequences!!"
+    #citations=[citations['Needleman1970']]
+)
 
 importlib.import_module('mytoy1._transformers')
 

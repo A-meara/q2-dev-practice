@@ -11,13 +11,7 @@ import pandas as pd
 from skbio.alignment import global_pairwise_align_nucleotide, TabularMSA
 from skbio import DNA
 
-#from q2_types.feature_data import DNAFASTAFormat
-
-import os
-import click
-import q2cli.util
-
-
+from q2_types.feature_data import DNAIterator
 
 
 def duplicate_table(table: pd.DataFrame) -> pd.DataFrame:
@@ -40,15 +34,12 @@ def nw_align(seq1: DNA,
 
     return msa
 
-# want sequence file as input ->
-# def seqcount(sequences: DNAFASTAFormat ) -> int:
+# want sequence file as input
 #
-#     count = 0
-#     with open('sequences') as my_fasta:
-#         for line in my_fasta:
-#             if line.startswith('>'):
-#                 count += 1
-#     outputstr = "number of sequences: %d" % count
-#     click.secho(outputstr,fg='green', bg='black')
-#
-#     return count
+def seqcount(sequences: DNAIterator) -> int:
+
+    # outputstr = "number of sequences: %d" % count
+    # click.secho(outputstr,fg='green', bg='black')
+    # click.echo("hello")
+    seqs = list(sequences)  # consumes the iterator
+    return len(seqs)

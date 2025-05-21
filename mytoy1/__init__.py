@@ -8,7 +8,11 @@
 # ----------------------------------------------------------------------------
 from ._types_and_formats import (
     SingleDNASequence, SingleRecordDNAFASTAFormat,
-    SingleRecordDNAFASTADirectoryFormat)
+    SingleRecordDNAFASTADirectoryFormat,
+    TotalSeqCount, MySequenceCountFormat,
+    SingleRecordSeqCountDirectoryFormat)
+
+
 
 from ._version import get_versions
 
@@ -20,4 +24,7 @@ __version__ = _version.get_versions()['version']
 
 __all__ = [
     "SingleDNASequence", "SingleRecordDNAFASTAFormat",
-    "SingleRecordDNAFASTADirectoryFormat"]
+    "SingleRecordDNAFASTADirectoryFormat",
+    "TotalSeqCount", "MySequenceCountFormat",
+    "SingleRecordSeqCountDirectoryFormat"
+]

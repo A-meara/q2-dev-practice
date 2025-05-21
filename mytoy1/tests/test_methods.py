@@ -169,3 +169,9 @@ class NWAlignTests(TestPluginBase):
         expected = TabularMSA([aligned_sequence1, aligned_sequence2])
 
         self.assertEqual(observed, expected)
+
+class seqcounttests(TestPluginBase):
+    package = 'mytoy1.tests'
+
+
+

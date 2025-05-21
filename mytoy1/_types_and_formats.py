@@ -13,6 +13,9 @@ from qiime2.plugin import SemanticType, TextFileFormat, ValidationError, model
 
 SingleDNASequence = SemanticType("SingleDNASequence")
 
+TotalSeqCount = SemanticType("TotalSeqCount")
+
+
 class SingleRecordDNAFASTAFormat(TextFileFormat):
 
     def _confirm_single_record(self):
@@ -65,5 +68,26 @@ SingleRecordDNAFASTADirectoryFormat = model.SingleFileDirectoryFormat(
     'SingleRecordDNAFASTADirectoryFormat', 'sequence.fasta',
     SingleRecordDNAFASTAFormat)
 
-TotalSeqCount = SemanticType("TotalSeqCount")
+
+class MySequenceCountFormat(TextFileFormat):
+    # make sure only number in the format
+    # havent included higher level, as it is just a toy
+    def validate(self, level):
+        with self.open() as fh:
+            content = fh.read().strip()
+            if not content.startswith("Sequences contained: "):
+                raise ValidationError(
+                    f"Expected line to start with 'Sequences contained: ', got: {content}"
+                )
+            try:
+                count_str = content.split(":", 1)[1].strip()
+                int(count_str)
+            except (IndexError, ValueError):
+                raise ValidationError(
+                    f"Could not parse integer from line: {content}"
+                )
+
+SingleRecordSeqCountDirectoryFormat = model.SingleFileDirectoryFormat(
+    'SingleRecordSeqCountDirectoryFormat', 'seqcount.txt',
+    MySequenceCountFormat)
 
